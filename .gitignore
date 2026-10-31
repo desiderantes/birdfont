@@ -1,9 +1,11 @@
 attic
-build
+build/
+subprojects/*/
+!subprojects/*.wrap
+subprojects/.wraplock
+.ninja*
+.idea/
 *.pyc
-.doit.db
-libbirdfont/Config.vala
-scripts/config.py
-libbirdgems.vapi
-libbirdfont.vapi
 *~
+.fuse_hidden*
+.Trash-*

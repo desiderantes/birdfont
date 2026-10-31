@@ -1,0 +1,7 @@
+[wrap-git]
+url = https://github.com/desiderantes/xmlbird.git
+revision = master
+depth = 1
+
+[provide]
+xmlbird = xmlbird_dep

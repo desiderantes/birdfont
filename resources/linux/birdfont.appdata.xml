@@ -21,7 +21,7 @@
 		<release version="2.19.0" date="2017-06-30" />
 	</releases>
 	<screenshots>
-		<screenshot>
+		<screenshot type="default">
 		<caption>Birdfont on Linux</caption>
 		<image type="source" width="1280" height="800">https://birdfont.org/images/birdfont_font_editor.png</image>
 		</screenshot>

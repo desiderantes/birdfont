@@ -11,39 +11,64 @@ export SVG, EOT and TTF fonts.
 
 ## Building from Source
 
-Install vala and all required libraries, they are most likely in
-packages with a -dev or -devel affix:
+Install `valac`, `meson`, `ninja`, and all required libraries, which are most
+likely in packages with a `-dev` or `-devel` affix:
 
     valac
-    python3-doit
-    libxmlbird-dev
+    meson
+    ninja-build
+    libxmlbird-dev (or built automatically as a Meson subproject)
     libgee-0.8-dev
-    libglib2.0-dev 
-    libgtk-3-dev 
+    libglib2.0-dev
+    libgtk-3-dev
     libwebkit2gtk-4.1-dev
     libnotify-dev
     libsqlite3-dev
 
-XML Bird is available from [birdfont.org][xmlbird].
+XML Bird is available from [birdfont.org][xmlbird] and is automatically fetched
+as a Meson wrap subproject if not installed on the system.
 
-BirdFont have two build systems, one python script that builds all
-binaries at once and one dependency based build system that uses
-doit.
+Configure and build:
 
-Configure, build and install with python:
+    meson setup build
+    meson compile -C build
 
-    ./configure
-    ./build.py
-    sudo ./install.py
+The default prefix is `/usr/local`. On some systems `/usr` is the right prefix:
 
-The default prefix is /usr/local. On some system is /usr the right prefix.
+    meson setup build --prefix=/usr
+    meson compile -C build
 
-    ./configure --prefix=/usr
-    ./build.py
-     sudo ./install.py
+Run tests and benchmarks:
 
-All patches must be compiled with support for valas null pointer checks.
-Configure the project with ./configure --nonnull 
+    meson test -C build
+    meson test -C build --benchmark
+
+Install:
+
+    sudo meson install -C build
+
+All patches must be compiled with support for Vala's null pointer checks.
+Configure the project with `-Dexperimental_non_null=true`:
+
+    meson setup build -Dexperimental_non_null=true
+
+## Hacking
+
+Run the test suite and benchmarks:
+
+    meson test -C build
+    meson test -C build --benchmark
+
+To enable the fuzzing targets and run the fuzz seed tests:
+
+    meson setup build -Dfuzzing=true
+    meson test -C build --suite fuzz
+
+To run continuous coverage-guided fuzzing with AFL++ (`afl-fuzz`):
+
+    CC=afl-clang-fast meson setup build -Dfuzzing=true
+    ninja -C build fuzz-svg
+    ninja -C build fuzz-bf
 
 ## Packages
 
@@ -57,5 +82,3 @@ resources/birdfont-logo.svg
 
 [birdfont]: https://birdfont.org/images/birdfont_logo2.png "Birdfont logo"
 [xmlbird]: https://birdfont.org/xmlbird.php "XML Bird – XML Parser for programs written in VALA"
-
-#
